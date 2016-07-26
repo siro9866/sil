@@ -107,11 +107,8 @@
 		}
 		
 		function fn_selectBoardListCallback(data){
-			
-			alert("111");
 			var total = data.TOTAL;
 			var body = $("table>tbody");
-			alert("total:"+total);
 			body.empty();
 			if(total == 0){
 				var str = "<tr>" + 
