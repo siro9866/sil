@@ -8,5 +8,12 @@
 	<!-- DB 스키마명 -->
 	<!-- 서버 -->
 	<entry key="TABLESC">siro9866</entry>
-
+	
+	<!-- 테이블 명 -->
+	<entry key="TABLE_T_FAVORITY">t_favority</entry>
+	<entry key="TABLE_T_BOARD">t_board</entry>
+	
+	<!-- 업로드경로 -->
+	<entry key="FILEUPLOADPATH">upload</entry>
+	<entry key="FILEUPLOADPATH_SAMPLE">sample</entry>
 </properties>

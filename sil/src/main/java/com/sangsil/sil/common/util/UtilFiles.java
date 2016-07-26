@@ -1,7 +1,9 @@
 package com.sangsil.sil.common.util;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,15 +11,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Component("fileUtils")
 public class UtilFiles {
-	private static final String filePath = "/etcc/FILES/";
-//	private static final String filePath = "C:\\dev\\file\\";
-
+//	private static final String filePath = "/etcc/FILES/";
+	@Value("#{config['FILEUPLOADPATH']}") String FILEUPLOADPATH;
+	
 	/**
 	 * 파일저장: 다중파일업로드 가능하다
 	 * @param map
@@ -37,9 +40,28 @@ public class UtilFiles {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> listMap = null;
+		
+		//실제 업로드될 파일명
+		Calendar calendar = Calendar.getInstance();
+		//연별로 디렉토리 생성
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		//연별로 디렉토리 생성
+		String dateDirectory = dateFormat.format(calendar.getTime());
 
 		String board_id = (String) map.get("board_id");
-
+		
+		// 파일경로
+		StringBuffer sbFilePath = new StringBuffer();
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(FILEUPLOADPATH);
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(map.get("fileUploadPath"));
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(dateDirectory);
+		sbFilePath.append(File.separatorChar);
+		
+		String filePath = sbFilePath.toString();
+		
 		File file = new File(filePath);
 		if (file.exists() == false) {
 			file.mkdirs();
@@ -95,6 +117,24 @@ public class UtilFiles {
 		String requestName = null;
 		String idx = null;
 		
+		//실제 업로드될 파일명
+		Calendar calendar = Calendar.getInstance();
+		//연별로 디렉토리 생성
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+		//연별로 디렉토리 생성
+		String dateDirectory = dateFormat.format(calendar.getTime());
+
+		// 파일경로
+		StringBuffer sbFilePath = new StringBuffer();
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(FILEUPLOADPATH);
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(map.get("fileUploadPath"));
+		sbFilePath.append(File.separatorChar);
+		sbFilePath.append(dateDirectory);
+		sbFilePath.append(File.separatorChar);
+		
+		String filePath = sbFilePath.toString();
 		
 		while(iterator.hasNext()){
 			multipartFile = multipartHttpServletRequest.getFile(iterator.next());

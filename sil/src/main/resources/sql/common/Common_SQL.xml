@@ -57,4 +57,13 @@
 </sql>
 
 
+	<!-- AUTOINCREASE 값 확인 -->
+	<select id="autoSeq" resultType="String" parameterType="HashMap">
+		SELECT
+		AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES
+		WHERE TABLE_SCHEMA = #{tableSC}
+		AND TABLE_NAME = #{tableNM}
+	</select>
+	
+	
 </mapper>

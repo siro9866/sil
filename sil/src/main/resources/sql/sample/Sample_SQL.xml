@@ -4,7 +4,7 @@
 <mapper namespace="sample">
 
 	<select id="list" parameterType="hashmap" resultType="hashmap">
-		<include refid="common.pagingPre"/> 
+		<include refid="common.pagingPre" /> 
 			<![CDATA[
 				select
 				favority.favority_id
@@ -27,29 +27,33 @@
 				on favority.cd_id = cd.cd_id and cd.use_yn = 'Y'
 				where favority.use_yn = 'Y'
 				order by favority.favority_id desc
-			]]>	
-		<include refid="common.pagingPost"/> 
+			]]>
+		<include refid="common.pagingPost" />
 	</select>
 
 	<insert id="insert" parameterType="hashmap">
 		insert into t_favority(
 		cd_id
-		, favority_nm
+		,
+		favority_nm
 		, favority_url
 		, favority_img
 		, favority_cmt
 		, disp_order
-		, in_date
+		,
+		in_date
 		, in_user
 		, in_ip
 		) values (
 		#{cd_id}
 		, #{favority_nm}
-		, #{favority_url}
+		,
+		#{favority_url}
 		, #{favority_img}
 		, #{favority_cmt}
 		, #{disp_order}
-		, NOW()
+		,
+		NOW()
 		, #{in_user}
 		, #{in_ip}
 		)
@@ -150,7 +154,7 @@
 			)
 		]]>
 	</insert>
-	
+
 	<update id="deleteFileList" parameterType="hashmap">
 		<![CDATA[
 			UPDATE t_file SET 
@@ -159,7 +163,7 @@
 				board_id = #{board_id}	
 		]]>
 	</update>
-	
+
 	<update id="updateFile" parameterType="hashmap">
 		<![CDATA[
 			UPDATE t_file SET
