@@ -24,4 +24,15 @@ public class CommonServiceImple implements CommonService{
 
 	}
 
+	@Override
+	public String getAutoIncreamentId(Map<String, String> map) throws Exception {
+		// Mysql sequence 대신 오토인크리스값 가져옴
+		String autoIncreamentId = "";
+		String queryId_seq = "common.autoSeq";
+		map.put("tableSC", map.get("tablesc"));
+		map.put("tableNM", map.get("table_t_favority"));
+		autoIncreamentId = (String) commonDAO.selectOne(queryId_seq, map);
+		return autoIncreamentId; 
+	}
+
 }

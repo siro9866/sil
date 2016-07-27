@@ -46,20 +46,10 @@ public class SampleServiceImpl implements SampleService{
 	@Override
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		
-		// Mysql sequence 대신 오토인크리스값 가져옴
-		String board_id = "";
-		String queryId_seq = "common.autoSeq";
-		map.put("tableSC", TABLESC);
-		map.put("tableNM", TABLE_T_FAVORITY);
-		board_id = (String) commonDAO.selectOne(queryId_seq, map);
-		
 		// 글 저장
 		String queryId = "sample.insert";
 		commonDAO.insert(queryId, map);
 
-		// 임시-파일저장시 아이디를 알아야 하는데 오토인크리라 코드 추가되어야함
-		map.put("board_id", board_id);
-		
 		// 파일저장
 		String queryId_file = "sample.insertFile";
 		map.put("fileUploadPath", FILEUPLOADPATH);

@@ -160,7 +160,6 @@ public class UtilFiles {
 			else{
 				requestName = multipartFile.getName();
 				idx = "file_id_"+requestName.substring(requestName.indexOf("_")+1);
-				System.out.println("STAY ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ:idx"+idx);
 				if(map.containsKey(idx) == true && map.get(idx) != null){
 					listMap = new HashMap<String,Object>();
 					listMap.put("IS_NEW", "N");
