@@ -5,7 +5,7 @@
 	<title>Home</title>
 	
 	<script>
-		location.href = "/sample/sampleList.do";
+		location.href = "/admin/board/boardList.do";
 	</script>
 	
 </head>

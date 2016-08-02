@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<select id="list" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre" /> 
+			<![CDATA[
+				select
+				favority.favority_id
+				, favority.cd_id
+				, cd.cd_nm
+				, favority.favority_nm
+				, favority.favority_url
+				, favority.favority_img
+				, favority.favority_cmt
+				, favority.disp_order
+				, favority.hit_cnt
+				, favority.use_yn
+				, favority.in_date
+				, favority.in_user
+				, favority.in_ip
+				, favority.up_date
+				, favority.up_user
+				, favority.up_ip
+				from t_favority as favority left outer join t_cd as cd
+				on favority.cd_id = cd.cd_id and cd.use_yn = 'Y'
+				where favority.use_yn = 'Y'
+				order by favority.favority_id desc
+			]]>
+		<include refid="common.pagingPost" />
+	</select>
+
+	<insert id="insert" parameterType="hashmap">
+		insert into t_favority(
+		cd_id
+		,
+		favority_nm
+		, favority_url
+		, favority_img
+		, favority_cmt
+		, disp_order
+		,
+		in_date
+		, in_user
+		, in_ip
+		) values (
+		#{cd_id}
+		, #{favority_nm}
+		,
+		#{favority_url}
+		, #{favority_img}
+		, #{favority_cmt}
+		, #{disp_order}
+		,
+		NOW()
+		, #{in_user}
+		, #{in_ip}
+		)
+	</insert>
+
+	<update id="updateHitCnt" parameterType="hashmap">
+		<![CDATA[
+			UPDATE t_favority 
+			SET
+				hit_cnt = hit_cnt + 1
+			WHERE
+				favority_id = #{favority_id}	
+		]]>
+	</update>
+
+	<select id="detail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			select
+				favority_id 
+				, favority_nm 
+				, favority_url 
+				, favority_img 
+				, favority_cmt 
+				, disp_order 
+				, hit_cnt 
+				, use_yn 
+				, in_date 
+				, in_user 
+				, in_ip 
+				, up_date 
+				, up_user 
+				, up_ip
+			from t_favority
+			WHERE favority_id = #{favority_id}
+		]]>
+	</select>
+
+	<update id="update" parameterType="hashmap">
+		<![CDATA[
+			UPDATE t_favority 
+			SET
+				favority_nm = #{favority_nm},
+				favority_cmt = #{favority_cmt}
+			WHERE favority_id = #{favority_id}	
+		]]>
+	</update>
+
+	<update id="delete" parameterType="hashmap">
+	<![CDATA[
+		UPDATE t_favority
+		SET
+			use_yn = 'N'
+		WHERE favority_id = #{favority_id}	
+	]]>
+	</update>
+
+
+
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT
+			file_id,
+			originalFileName,
+			ROUND(file_size/1024,1) AS file_size
+		FROM
+			t_file
+		WHERE
+			board_id = #{board_id}
+			AND use_yn = 'Y'
+	]]>
+	</select>
+
+	<insert id="insertFile" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO t_file
+			(
+				board_gbn,
+				board_id,
+				originalFileName,
+				file_name,
+				file_size,
+				in_user,
+				path_name,
+				view_path_name,
+				file_ext
+			)
+			VALUES
+			(
+				#{board_gbn},
+				#{board_id},
+				#{originalFileName},
+				#{file_name},
+				#{file_size},
+				'Admin',
+				#{path_name},
+				#{view_path_name},
+				#{file_ext}
+			)
+		]]>
+	</insert>
+
+	<update id="deleteFileList" parameterType="hashmap">
+		<![CDATA[
+			UPDATE t_file SET 
+				use_yn = 'N' 
+			WHERE 
+				board_id = #{board_id}	
+		]]>
+	</update>
+
+	<update id="updateFile" parameterType="hashmap">
+		<![CDATA[
+			UPDATE t_file SET
+				use_yn = 'Y'
+			WHERE
+				file_id = #{file_id}	
+		]]>
+	</update>
+
+
+</mapper>
