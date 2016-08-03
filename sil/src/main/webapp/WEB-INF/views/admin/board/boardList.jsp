@@ -148,7 +148,7 @@
 
 <!-- Button -->
 <h2 class="demoHeaders">Button</h2>
-<button id="button">A button element</button>
+<button id="button" onclick="javascript:location.href='/common/login/logout.do'">A button element</button>
 <button id="button-icon">An icon-only button</button>
 
 

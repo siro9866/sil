@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.sangsil.sil.common.dao.CommonDAO;
+import com.sangsil.sil.common.common.dao.CommonDAO;
 import com.sangsil.sil.common.util.UtilFiles;
 
 @Service("sampleService")
