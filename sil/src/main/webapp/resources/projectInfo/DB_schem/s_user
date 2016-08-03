@@ -1,0 +1,15 @@
+CREATE TABLE s_user (
+	principle		int			auto_increment	primary key,
+	user_id			varchar(50)	not null,
+	crc_id		int			not null,
+	user_pw		varchar(50)	not null,
+	enabled		boolean		not null,
+	INDEX(crc_id)
+);
+
+
+create table s_authorities (
+	principle		int		not null,
+	authority		varchar(50)	not null,
+	unique index ix_auth_principle (principle, authority)
+);
