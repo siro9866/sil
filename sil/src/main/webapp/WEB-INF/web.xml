@@ -54,4 +54,26 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
+	<!-- error 페이지 -->
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/views/common/errors/error_400.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/common/errors/error_404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/common/errors/error_403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/common/errors/error_500.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/views/common/errors/error.jsp</location>
+	</error-page>
+
 </web-app>
