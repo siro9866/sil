@@ -8,7 +8,7 @@
 
 <body>
 	<h2>로그인</h2>
-	<form name="form" method="post" action="/common/login/login.do">
+	<form name="frm" method="post" action="/common/login/login.do">
 		<table>
 			<tr height="40px">
 				<td>사용자아이디</td>
@@ -26,5 +26,12 @@
 			</tr>
 		</table>
 	</form>
+	
+<script type="text/javascript">
+if("${!empty rMsg}"){
+	alert("${rMsg}");
+}
+</script>	
+	
 </body>
 </html>

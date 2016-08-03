@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+
+<select id="login" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+		SELECT 
+			user_id
+			,login_gbn
+			,user_nm
+			,user_auth
+			,login_cnt
+			,login_date
+			,use_yn
+			,p_id
+			,p_pw
+			,p_email
+			,p_nickname
+			,p_age
+			,p_gender
+			,p_name
+			,p_birthday
+			,p_user_img
+			,in_date
+			,in_user
+			,in_ip
+			,up_date
+			,up_user
+			,up_ip
+		FROM t_user
+		where user_id = #{user_id}
+	]]>
+</select>
+
+	
+	
+</mapper>

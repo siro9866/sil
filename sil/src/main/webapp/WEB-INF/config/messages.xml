@@ -3,10 +3,11 @@
 <properties>
 
 	<comment>프로퍼티</comment>
-
-<!--S: 로컬|서버 구분해서 해야함 -->
-	<!-- DB 스키마명 -->
-	<!-- 서버 -->
-	<entry key="SUCCESS">성공입니다.</entry>
+	
+	<entry key="SUCCESS_CODE">2000</entry>
+	<entry key="SUCCESS_MSG">성공</entry>
+	<entry key="FAIL_CODE">9999</entry>
+	<entry key="FAIL_MSG">실패</entry>
+	
 
 </properties>
