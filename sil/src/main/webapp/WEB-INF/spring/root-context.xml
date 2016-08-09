@@ -5,4 +5,14 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/config/messages/spring-security-message</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8"/>
+		<property name="cacheSeconds" value="5"/>
+	</bean>
+		
 </beans>

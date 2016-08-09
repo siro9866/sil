@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/security 
+		                http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<!-- 확장자를 이용해 패턴을 걸때는 /**/*.해당 확장자 로 할 것(Ant Pattern 규칙) -->
+	<http pattern="/**/*.js" security="none" />
+	<http pattern="/**/*.css" security="none" />
+	<http pattern="/resources/images/*" security="none" />
+	
+	<!-- 권한 
+		hasRole(role1): 인자로 들어간 권한(role1)을 가지고 있는경우 true
+		hasAnyRole(role1, role2..): 인자로 들어간 권한들 (role1, role2..) 중 하나라도 가지고 있을경우 true
+		permitAll: 권한이 있든 없든 모두 접근 가능하다
+		denyAll: 권한이 있든 없든 모두 접근 불가능하다
+		isAnonymous(): Anonymous 사용자일 경우 true
+		isRememberMe(): Spring Security의  Remember-me 기능으로 로그인 한 사용자일 경우 true
+		isAuthnticated(): Anonymous 사용자가 아닐 경우(로그인 인증에 성공한경우) true
+		isFullyAuthenticated(): Anonymous 사용자가 아니고 Remember-me 기능으로 로그인 하지 않은 사용자일 경우 true
+		ROLE_ANONYMOUS, ROLE_ADMIN, ROLE_USER
+	 -->
+	
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+		<intercept-url pattern="/common/login/loginForm.do" access="isAnonymous()" />
+		<intercept-url pattern="/index.jsp" access="permitAll" />
+		<intercept-url pattern="/**" access="permitAll" />
+	
+	<!--
+		커스터마이징한 로그인 화면 적용
+		username-parameter: 로그인폼에서 id값 받을 input의 name
+		password-parameter: 로그인폼에서 pw값 받을 input의 name
+		login-page: 로그인화면(인증받지 못한 상태에서 권한이 필요한 화면을 접근할 경우 인증을 바딕 위한 로그인 화면을 띠우는 곳)
+		default-target-url: 로그인 인증을 성공했을 경우 보여줄 페이지 설정
+			※ 직접 로그인 페이지로 들어왔을 경우 : 로그인 인증 성공하면 default-target-url 로 이동
+			  특정페이지 접근시 권한이 필요한 페이지에 권한이 없어 로그인페이지로 이동한 경우: 로그인 인증 성공하면 특정페이지로 이동
+			  후자의 경우에도 default-target-url 로 이동하려면 always-use-default-target을 true 로 주면됨 디폴트는 false.
+		authentication-failure-url: 인증이 실패했을 경우 보여주는 화면 url 파람을 실어서 보낼 수도 있음
+	 -->
+	<form-login
+		username-parameter="login_id"
+		password-parameter="login_pw"
+		login-page="/common/login/loginForm.do"
+		default-target-url="/admin/board/boardList.do"
+		authentication-failure-url="/common/login/loginForm.do?fail=true"
+	/>
+	
+	<!-- 
+		로그아웃
+		logout-success-url: 로그아웃 성공시 이동할 페이지
+		delete-cookies: 로그아웃시 지울 쿠키설정 여러개의 쿠키를 삭제시 구분자(,) 로 여러개 삭제가능
+	 -->
+	<logout
+		logout-success-url="/index.jsp"
+		delete-cookies="JSESSIONID"
+	/>
+	
+	</http>
+	
+<!-- 	<authentication-manager> -->
+<!-- 		<authentication-provider> -->
+<!-- 			<user-service> -->
+<!-- 				<user name="user1" password="user1password" authorities="ROLE_USER" /> -->
+<!-- 				<user name="admin1" password="admin1password" authorities="ROLE_ADMIN" /> -->
+<!-- 			</user-service> -->
+<!-- 		</authentication-provider> -->
+<!-- 	</authentication-manager> -->
+	
+	<!-- 데이타베이스 접속해서 유저정보 가져옴
+	
+		rolePrefix: 권한이름 접두어 걍 공백으로 두는게 낫다. 헷갈림
+	 -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="customJdbcDaoImpl" />
+	</authentication-manager>
+
+	<beans:bean id="customJdbcDaoImpl" class="com.sangsil.sil.common.security.CustomJdbcDaoImpl">
+		<beans:property name="dataSource" ref="logDataSource_pos" />
+		<beans:property name="rolePrefix" value="" />
+		<beans:property name="usersByUsernameQuery" value="SELECT USER_ID, USER_PW, USER_NAME FROM S_MEMBERINFO WHERE USER_ID = ?" />
+		<beans:property name="authoritiesByUsernameQuery" value="SELECT ROLE_ID FROM S_MEMBER_ROLE WHERE USER_ID=?" />
+		<beans:property name="enableGroups" value="false" />
+	</beans:bean>
+	
+	<beans:bean id="logDataSource_pos" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/siro9866" />
+		<beans:property name="username" value="siro9866" />
+		<beans:property name="password" value="sangsil2" />
+	</beans:bean>
+	
+</beans:beans>
+

@@ -60,6 +60,7 @@
 <c:import url="/include.do?fileName=/admin/include/header&depth1=menuL1&depth2=menuL1"/>
 <!-- E:FILE:header.jsp -->
 
+<div id="wrapper">
 	<h2>게시판 목록</h2>
 	<table class="board_list">
 		<colgroup>
@@ -111,7 +112,7 @@
 	
 	<c:import url="/include.do?fileName=/admin/include/body" />
 
-
+</div>
 
 
 

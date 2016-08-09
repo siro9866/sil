@@ -22,7 +22,7 @@
 	</bean>
 	
 	<!-- properties.xml -->
-	<util:properties id="config" location="/WEB-INF/config/properties.xml"></util:properties>
-	<util:properties id="message" location="/WEB-INF/config/messages.xml"></util:properties>
+	<util:properties id="config" location="/WEB-INF/config/messages/properties.xml"></util:properties>
+	<util:properties id="message" location="/WEB-INF/config/messages/messages.xml"></util:properties>
 	
 </beans>
