@@ -78,7 +78,9 @@
 		rolePrefix: 권한이름 접두어 걍 공백으로 두는게 낫다. 헷갈림
 	 -->
 	<authentication-manager>
-		<authentication-provider user-service-ref="customJdbcDaoImpl" />
+		<authentication-provider user-service-ref="customJdbcDaoImpl">
+			<password-encoder ref="bcryptPasswordEncoder" />
+		</authentication-provider>
 	</authentication-manager>
 
 	<beans:bean id="customJdbcDaoImpl" class="com.sangsil.sil.common.security.CustomJdbcDaoImpl">
@@ -107,9 +109,7 @@
 		<beans:property name="defaultUrl" value="/index.jsp" />
 	</beans:bean>
 	
-	<!-- 로그인 실패했을 때 실행됨
-		
-	-->
+	<!-- 로그인 실패했을 때 실행됨 -->
 	<beans:bean id="customAuthenticationFailureHandler" class="com.sangsil.sil.common.security.CustomAuthenticationFailureHandler">
 		<beans:property name="loginidname" value="login_id" />
 		<beans:property name="loginpasswdname" value="login_pw" />
@@ -117,6 +117,9 @@
 		<beans:property name="exceptionmsgname" value="securityexceptionmsg" />
 		<beans:property name="defaultFailureUrl" value="/common/login/loginForm.do?fail=true" />
 	</beans:bean>
+	
+	<!-- 패스워드 암호화 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
 </beans:beans>
 

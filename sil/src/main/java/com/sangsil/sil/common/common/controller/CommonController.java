@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sangsil.sil.common.common.service.CommonService;
@@ -23,6 +27,9 @@ public class CommonController {
 	@Resource(name="commonService")
 	private CommonService commonService;
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncode;
+	
 	/**
 	 * 파일 인클루드
 	 * @param comMap
@@ -62,5 +69,30 @@ public class CommonController {
 		response.getOutputStream().close();
 	}
 
+	/**
+	 * 패스워드 암호화 테스트
+	 * http://localhost:8080/common/encode.do?user_pw=1
+	 * @param commandMap
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/common/encode.do")
+	@ResponseBody
+	public JSONObject encode(ComMap commandMap, HttpServletResponse response) throws Exception{
+		JSONObject json = new JSONObject();
+		Map<String,Object> map = commandMap.getMap();
+		String pw_param = (String)map.get("user_pw");
+		String pw_enc = passwordEncode.encode(pw_param);
+		
+		log.debug("pw_param:"+ pw_param);
+		log.debug("pw_enc:"+ pw_enc);
+		
+		json.put("pw_param", pw_param);
+		json.put("pw_enc", pw_enc);
+		
+		return json;
+	}
 	
 }
