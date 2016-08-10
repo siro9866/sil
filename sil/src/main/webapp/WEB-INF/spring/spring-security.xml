@@ -40,13 +40,16 @@
 			  특정페이지 접근시 권한이 필요한 페이지에 권한이 없어 로그인페이지로 이동한 경우: 로그인 인증 성공하면 특정페이지로 이동
 			  후자의 경우에도 default-target-url 로 이동하려면 always-use-default-target을 true 로 주면됨 디폴트는 false.
 		authentication-failure-url: 인증이 실패했을 경우 보여주는 화면 url 파람을 실어서 보낼 수도 있음
+		authentication-success-handler-ref: 로그인 성공했을 때 실행됨
+		authentication-failure-handler-ref: 로그인 실패했을 때 실행됨
 	 -->
 	<form-login
 		username-parameter="login_id"
 		password-parameter="login_pw"
 		login-page="/common/login/loginForm.do"
 		default-target-url="/admin/board/boardList.do"
-		authentication-failure-url="/common/login/loginForm.do?fail=true"
+		authentication-success-handler-ref="customAuthenticationSuccessHandler"
+		authentication-failure-handler-ref="customAuthenticationFailureHandler"
 	/>
 	
 	<!-- 
@@ -91,6 +94,28 @@
 		<beans:property name="url" value="jdbc:mysql://localhost:3306/siro9866" />
 		<beans:property name="username" value="siro9866" />
 		<beans:property name="password" value="sangsil2" />
+	</beans:bean>
+	
+	<!-- 로그인 성공했을 때 실행됨 
+		targetUrlParameter: 로그인 성공한 뒤 이동할 화면 URL이 들어있는 파라미터 이름을 넣는다
+		useReferer: REFERER 헤더값을 사용할 것인지의 여부를 결정하는 것
+		defaultUrl: 우선순위에 모두 만족하지 않을 경우
+	 -->
+	<beans:bean id="customAuthenticationSuccessHandler" class="com.sangsil.sil.common.security.CustomAuthenticationSuccessHandler">
+		<beans:property name="targetUrlParameter" value="loginRedirect" />
+		<beans:property name="useReferer" value="false" />
+		<beans:property name="defaultUrl" value="/index.jsp" />
+	</beans:bean>
+	
+	<!-- 로그인 실패했을 때 실행됨
+		
+	-->
+	<beans:bean id="customAuthenticationFailureHandler" class="com.sangsil.sil.common.security.CustomAuthenticationFailureHandler">
+		<beans:property name="loginidname" value="login_id" />
+		<beans:property name="loginpasswdname" value="login_pw" />
+		<beans:property name="loginredirectname" value="loginRedirect" />
+		<beans:property name="exceptionmsgname" value="securityexceptionmsg" />
+		<beans:property name="defaultFailureUrl" value="/common/login/loginForm.do?fail=true" />
 	</beans:bean>
 	
 </beans:beans>
