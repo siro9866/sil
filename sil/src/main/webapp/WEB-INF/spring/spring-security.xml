@@ -22,6 +22,7 @@
 		isAuthnticated(): Anonymous 사용자가 아닐 경우(로그인 인증에 성공한경우) true
 		isFullyAuthenticated(): Anonymous 사용자가 아니고 Remember-me 기능으로 로그인 하지 않은 사용자일 경우 true
 		ROLE_ANONYMOUS, ROLE_ADMIN, ROLE_USER
+		access-denied-handler: 권한없을경우 리턴페이지
 	 -->
 	
 	<http auto-config="true" use-expressions="true">
@@ -29,7 +30,8 @@
 		<intercept-url pattern="/common/login/loginForm.do" access="isAnonymous()" />
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
-	
+<!-- 		<access-denied-handler error-page="/common/access_denied.do"/> -->
+		<access-denied-handler ref="accessDenied"/>
 	<!--
 		커스터마이징한 로그인 화면 적용
 		username-parameter: 로그인폼에서 id값 받을 input의 name
@@ -74,7 +76,6 @@
 <!-- 	</authentication-manager> -->
 	
 	<!-- 데이타베이스 접속해서 유저정보 가져옴
-	
 		rolePrefix: 권한이름 접두어 걍 공백으로 두는게 낫다. 헷갈림
 	 -->
 	<authentication-manager>
@@ -121,5 +122,9 @@
 	<!-- 패스워드 암호화 -->
 	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
+	<!-- 접근권한없음 구현 -->
+	<beans:bean id="accessDenied" class="com.sangsil.sil.common.security.CustomAccessDeniedHandler">
+		<beans:property name="errorPage" value="/common/access_denied.do" />
+	</beans:bean>
 </beans:beans>
 

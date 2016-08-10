@@ -70,6 +70,19 @@ public class CommonController {
 	}
 
 	/**
+	 * SPRINGSECURITY
+	 * 권한없음 페이지
+	 * @param comMap
+	 * @return
+	 */
+	@RequestMapping("/common/access_denied")
+	public ModelAndView access_denied(){
+		ModelAndView mv = new ModelAndView("/common/access_denied");
+		return mv;
+	}
+	
+	
+	/**
 	 * 패스워드 암호화 테스트
 	 * http://localhost:8080/common/encode.do?user_pw=1
 	 * @param commandMap
