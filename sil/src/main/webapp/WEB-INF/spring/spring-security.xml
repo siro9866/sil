@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	                    http://www.springframework.org/schema/beans/spring-beans.xsd
 		                http://www.springframework.org/schema/security 
-		                http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+		                http://www.springframework.org/schema/security/spring-security.xsd">
 	
 	<!-- 확장자를 이용해 패턴을 걸때는 /**/*.해당 확장자 로 할 것(Ant Pattern 규칙) -->
 	<http pattern="/**/*.js" security="none" />
@@ -63,6 +63,13 @@
 		logout-success-url="/index.jsp"
 		delete-cookies="JSESSIONID"
 	/>
+	
+	<!-- 동시접속수 제한 
+		error-if-maximum-exceeded:true 나중에로그인한 것 제한 디폴트는 false 
+	-->
+	<session-management invalid-session-url="/common/login/loginForm.do">
+		<concurrency-control max-sessions="1" expired-url="/common/login/loginForm.do" error-if-maximum-exceeded="true"/>
+	</session-management>
 	
 	</http>
 	
